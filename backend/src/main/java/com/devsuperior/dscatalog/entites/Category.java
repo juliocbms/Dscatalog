@@ -2,6 +2,7 @@ package com.devsuperior.dscatalog.entites;
 
 import jakarta.persistence.*;
 
+import java.time.Instant;
 import java.util.Objects;
 
 @Entity
@@ -12,6 +13,12 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    private Instant createdAt;
+
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    private Instant updateddAt;
 
     public Category() {
     }
@@ -36,6 +43,24 @@ public class Category {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public Instant getUpdateddAt() {
+        return updateddAt;
+    }
+
+    @PrePersist
+    public void prePersist(){
+        createdAt = Instant.now();
+    }
+
+    @PreUpdate
+    public void preUpdate(){
+        updateddAt = Instant.now();
     }
 
     @Override
